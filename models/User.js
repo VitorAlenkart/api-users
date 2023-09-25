@@ -6,14 +6,22 @@ class User{
 
     }
 
-    async new(name,email,password){
+    async new(data){
         try{
-            await knex.insert({name:name, email:email, password: password}).table("users")
+            await knex.insert({name:data.name, email:data.email, password: data.password}).table("users")
             console.log("User Cadastrado");
         }catch(err){
             console.log(err);
         }
-        
+    }
+
+    async emailExist(email) {
+        try{
+            const result = await knex.select("*").table("users").where({email: email})
+            return result;
+        }catch(err){
+            console.log(err)
+        }
     }
 
 }
